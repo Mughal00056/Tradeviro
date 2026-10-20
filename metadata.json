@@ -1,0 +1,8 @@
+{
+  "name": "TradePad",
+  "description": "Fixed-time trading simulator with real-time candlestick charts, technical indicators, demo balance, and portfolio management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
