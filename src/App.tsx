@@ -108,22 +108,22 @@ let actx=null;
 function beep(on,f=660,d=.12){if(!on)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(actx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+d);o.stop(actx.currentTime+d)}catch(e){}}
 
 /* ---------- small components ---------- */
-const star=(cx,cy,r)=><circle cx={cx} cy={cy} r={r} fill="#fff"/>;
+const star=(cx,cy,r,k)=><circle key={k} cx={cx} cy={cy} r={r} fill="#fff"/>;
 const JACK=<g><path d="M0 0L24 24M24 0L0 24" stroke="#fff" strokeWidth="4.5"/><path d="M0 0L24 24M24 0L0 24" stroke="#c8102e" strokeWidth="1.6"/><path d="M12 0V24M0 12H24" stroke="#fff" strokeWidth="7"/><path d="M12 0V24M0 12H24" stroke="#c8102e" strokeWidth="4.2"/></g>;
 const FLAGS={
-  USD:<><rect width="24" height="24" fill="#fff"/>{[0,2,4,6].map(i=><rect key={i} y={i*24/7} width="24" height={24/7} fill="#c8102e"/>)}<rect width="11.500" height={24*4/7} fill="#2b3a85"/>{[[3,3],[7,3],[5,6],[9,6],[3,9],[7,9]].map(([x,y])=>star(x,y,.9))}</>,
-  EUR:<><rect width="24" height="24" fill="#1b4fb4"/>{Array.from({length:12},(_,i)=>star(12+6.400*Math.cos(i*Math.PI/6),12+6.400*Math.sin(i*Math.PI/6),1.100).props&&<circle key={i} cx={12+6.400*Math.cos(i*Math.PI/6)} cy={12+6.400*Math.sin(i*Math.PI/6)} r="1.100" fill="#ffd617"/>)}</>,
+  USD:<><rect width="24" height="24" fill="#fff"/>{[0,2,4,6].map(i=><rect key={'stripe-'+i} y={i*24/7} width="24" height={24/7} fill="#c8102e"/>)}<rect width="11.500" height={24*4/7} fill="#2b3a85"/>{[[3,3],[7,3],[5,6],[9,6],[3,9],[7,9]].map(([x,y],i)=><circle key={'star-'+i} cx={x} cy={y} r=".9" fill="#fff"/>)}</>,
+  EUR:<><rect width="24" height="24" fill="#1b4fb4"/>{Array.from({length:12},(_,i)=><circle key={'eu-'+i} cx={12+6.400*Math.cos(i*Math.PI/6)} cy={12+6.400*Math.sin(i*Math.PI/6)} r="1.100" fill="#ffd617"/>)}</>,
   GBP:<><rect width="24" height="24" fill="#1f3a8a"/>{JACK}</>,
-  AUD:<><rect width="24" height="24" fill="#1f2f86"/><g transform="scale(.5)">{JACK}</g>{[[6,19,2],[17,17,1.200],[20,8,1.200],[13,6,1.200],[17,12,1.200]].map(([x,y,r],i)=><circle key={i} cx={x} cy={y} r={r} fill="#fff"/>)}</>,
+  AUD:<><rect width="24" height="24" fill="#1f2f86"/><g transform="scale(.5)">{JACK}</g>{[[6,19,2],[17,17,1.200],[20,8,1.200],[13,6,1.200],[17,12,1.200]].map(([x,y,r],i)=><circle key={'aud-'+i} cx={x} cy={y} r={r} fill="#fff"/>)}</>,
   CAD:<><rect width="24" height="24" fill="#fff"/><rect width="6" height="24" fill="#d52b1e"/><rect x="18" width="6" height="24" fill="#d52b1e"/><polygon points="12,5 13.500,9.500 17.500,8.500 15,12.500 16.500,17 12.800,15.500 12.800,19 11.200,19 11.200,15.500 7.500,17 9,12.500 6.500,8.500 10.500,9.500" fill="#d52b1e"/></>,
   CHF:<><rect width="24" height="24" fill="#d52b1e"/><rect x="10" y="5" width="4" height="14" fill="#fff"/><rect x="5" y="10" width="14" height="4" fill="#fff"/></>,
-  NZD:<><rect width="24" height="24" fill="#1f2f86"/><g transform="scale(.5)">{JACK}</g>{[[17,8],[20,13],[15,14],[17,19]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r="1.400" fill="#d52b1e" stroke="#fff" strokeWidth=".6"/>)}</>,
-  SGD:<><rect width="24" height="12" fill="#ed2939"/><rect y="12" width="24" height="12" fill="#fff"/><circle cx="8" cy="6" r="4" fill="#fff"/><circle cx="9.600" cy="6" r="3.600" fill="#ed2939"/>{[[13,3.500],[15,5.500],[14.500,8.500],[11.500,9]].map(([x,y],i)=><circle key={i} cx={x} cy={y} r=".9" fill="#fff"/>)}</>,
+  NZD:<><rect width="24" height="24" fill="#1f2f86"/><g transform="scale(.5)">{JACK}</g>{[[17,8],[20,13],[15,14],[17,19]].map(([x,y],i)=><circle key={'nzd-'+i} cx={x} cy={y} r="1.400" fill="#d52b1e" stroke="#fff" strokeWidth=".6"/>)}</>,
+  SGD:<><rect width="24" height="12" fill="#ed2939"/><rect y="12" width="24" height="12" fill="#fff"/><circle cx="8" cy="6" r="4" fill="#fff"/><circle cx="9.600" cy="6" r="3.600" fill="#ed2939"/>{[[13,3.500],[15,5.500],[14.500,8.500],[11.500,9]].map(([x,y],i)=><circle key={'sgd-'+i} cx={x} cy={y} r=".9" fill="#fff"/>)}</>,
   JPY:<><rect width="24" height="24" fill="#fff"/><circle cx="12" cy="12" r="6.500" fill="#bc002d"/></>
 };
 const GLY={Bitcoin:['₿','#f7931a'],Ethereum:['Ξ','#627eea'],Solana:['◎','#9945ff'],BinanceCoin:['◆','#f3ba2f'],Aptos:['A','#1f2937'],Arbitrum:['◭','#28a0f0'],Avalanche:['▲','#e84142'],BitcoinCash:['₿','#0ac18e'],Celestia:['✦','#7b2bf9'],XRP:['✕','#23292f'],Dogecoin:['Ð','#c2a633'],Litecoin:['Ł','#345d9d'],Gold:['🥇','#fbe7a1'],Silver:['🥈','#e3e6ec'],Platinum:['◈','#9aa4b2'],Palladium:['◈','#7f8da3'],UKBrent:['🛢️','#d9dce3'],USCrude:['🛢️','#e7dccf'],Copper:['🔶','#f2d3b5']};
 function AIcon({a,sm}){
-  if(a.pair)return <span className={'ico pair'+(sm?' sm':'')}>{a.pair.map(c=>FLAGS[c]?<i key={c} className="fl" title={c}><svg viewBox="0 0 24 24" aria-hidden="true">{FLAGS[c]}</svg></i>:<i key={c} title={c} style={{background:CCY[c]||PAL[hash(c)%PAL.length]}}>{c.slice(0,2)}</i>)}</span>;
+  if(a.pair)return <span className={'ico pair'+(sm?' sm':'')}>{a.pair.map((c,idx)=>FLAGS[c]?<i key={c+'-'+idx} className="fl" title={c}><svg viewBox="0 0 24 24" aria-hidden="true">{FLAGS[c]}</svg></i>:<i key={c+'-'+idx} title={c} style={{background:CCY[c]||PAL[hash(c)%PAL.length]}}>{c.slice(0,2)}</i>)}</span>;
   const g=GLY[a.id];if(g)return <span className={'ico'+(sm?' sm':'')}><i className="gl" style={{background:g[1],color:/[🥇🥈🛢🔶]/u.test(g[0])?'inherit':'#fff'}}>{g[0]}</i></span>;
   return <span className={'ico'+(sm?' sm':'')}><i style={{background:a.col}}>{a.ini}</i></span>;
 }
@@ -260,7 +260,7 @@ function Chart({assetId,tf,setTf,type,setType,zoom,setZoom,openTrades,expMs,pend
     const resize=()=>{const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;cv.width=Math.max(1,r.width*d);cv.height=Math.max(1,r.height*d);ctx.setTransform(d,0,0,d,0,0)};
     resize();const ro=new ResizeObserver(resize);ro.observe(cv);
     const rr=(x,y,w,h,r,f)=>{ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);ctx.fillStyle=f;ctx.fill()};
-    const txt=(s,x,y,c,font='10px Roboto Mono, monospace',al='left')=>{ctx.font=font;ctx.fillStyle=c;ctx.textAlign=al;ctx.textBaseline='middle';ctx.fillText(s,x,y)};
+    const txt=(s,x,y,c,font='10.5px Roboto, system-ui, -apple-system, sans-serif',al='left')=>{ctx.font=font;ctx.fillStyle=c;ctx.textAlign=al;ctx.textBaseline='middle';ctx.fillText(s,x,y)};
     const draw=()=>{
       const t0=performance.now();if(!col||t0-lastCol>600){readCol();lastCol=t0}
       const p=pr.current,W=cv.clientWidth,H=cv.clientHeight;ctx.clearRect(0,0,W,H);
@@ -320,8 +320,14 @@ function Chart({assetId,tf,setTf,type,setType,zoom,setZoom,openTrades,expMs,pend
       }
       // extremes
       if(hiC&&loC&&hi>lo&&p.type!=='line'){
-        const lab=(c,v,yy)=>{const x=X(c.t+tfms/2),right=x<plotW*0.55;txt(fmtP(p.assetId,v),right?x+8:x-8,yy,col.muted,'10px Roboto Mono, monospace',right?'left':'right')};
-        lab(hiC,hi,Y(hi)-8);lab(loC,lo,Y(lo)+9)}
+        const xH=X(hiC.t+tfms/2),yH=Y(hi);
+        ctx.strokeStyle=col.muted;ctx.lineWidth=1.2;
+        ctx.beginPath();ctx.moveTo(xH,yH);ctx.lineTo(xH,yH-10);ctx.lineTo(xH+6,yH-10);ctx.stroke();
+        txt(fmtP(p.assetId,hi),xH+10,yH-10,col.muted,'500 10.5px Roboto, sans-serif','left');
+        const xL=X(loC.t+tfms/2),yL=Y(lo);
+        ctx.strokeStyle=col.muted;ctx.lineWidth=1.2;
+        ctx.beginPath();ctx.moveTo(xL,yL);ctx.lineTo(xL,yL+10);ctx.lineTo(xL+6,yL+10);ctx.stroke();
+        txt(fmtP(p.assetId,lo),xL+10,yL+10,col.muted,'500 10.5px Roboto, sans-serif','left');}
       // preview lines
       const mine=p.openTrades;
       const snap=Math.floor(now/tfms)*tfms+tfms/2,xNow=X(now),sx=p.pendMs?X(p.pendMs):X(snap),ex=p.pendMs?X(p.pendMs+p.expMs):X(snap)+p.expMs/tfms*cw;
@@ -370,37 +376,185 @@ function Chart({assetId,tf,setTf,type,setType,zoom,setZoom,openTrades,expMs,pend
         ctx.lineJoin='round';ctx.shadowColor='rgba(0,0,0,.28)';ctx.shadowBlur=7;ctx.fillStyle=k;ctx.fill();ctx.lineWidth=5;ctx.strokeStyle='#fff';ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle=k;ctx.fill();ctx.restore();
       }
       // open trades
-      let endDrawn=false;
-      for(const t of mine){
-        if(t.status==='pending'){if(t.target!=null){const y=Y(t.target);ctx.setLineDash([6,4]);ctx.strokeStyle='#6c43f5';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(plotW,y);ctx.stroke();ctx.setLineDash([]);txt('Target '+fmtP(t.asset,t.target),plotW-6,y-6,'#6c43f5','600 10px Roboto, sans-serif','right');continue}const x=X(t.openT);ctx.setLineDash([4,4]);ctx.strokeStyle=col.muted;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(x,TY-10);ctx.lineTo(x,MB);ctx.stroke();ctx.setLineDash([]);
-          txt('Pending '+mmss(t.openT-now),x-6,TY-14,col.muted,'600 10px Roboto, sans-serif','right');continue}
-        const win=t.dir==='up'?price>t.entry:price<t.entry,k=win?col.gu:col.gd;
-        const x1=Math.max(2,X(t.openT)),x2=Math.min(plotW-2,X(t.expT)),yy=Y(t.entry);
-        ctx.strokeStyle=k;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x1,yy);ctx.lineTo(x2,yy);ctx.stroke();
-        for(const [cx,show] of [[x1,X(t.openT)>=2],[x2,X(t.expT)<=plotW-2]]){if(!show)continue;ctx.beginPath();ctx.arc(cx,yy,4.5,0,7);ctx.fillStyle=col.surface;ctx.fill();ctx.strokeStyle=k;ctx.lineWidth=2;ctx.stroke()}
-        const lb=`${money(t.stake)}  ${mmss(t.expT-now)}`;ctx.font='700 11px Roboto Mono, monospace';const w=ctx.measureText(lb).width+36;
-        const bx=Math.min(plotW-w-4,Math.max(4,x1)),by=Math.max(TY-4,Math.min(MB-28,yy-28));rr(bx,by,w,24,8,k);ctx.strokeStyle='rgba(255,255,255,.95)';ctx.lineWidth=1.5;ctx.stroke();
-        ctx.beginPath();const ax=bx+8,ay=by+6;if(t.dir==='up'){ctx.moveTo(ax,ay+12);ctx.lineTo(ax+12,ay);ctx.moveTo(ax+3,ay);ctx.lineTo(ax+12,ay);ctx.lineTo(ax+12,ay+9)}else{ctx.moveTo(ax,ay);ctx.lineTo(ax+12,ay+12);ctx.moveTo(ax+12,ay+3);ctx.lineTo(ax+12,ay+12);ctx.lineTo(ax+3,ay+12)}
-        ctx.strokeStyle='#fff';ctx.lineWidth=2.3;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.lineCap='butt';txt(lb,bx+25,by+12.5,'#fff','700 11px Roboto Mono, monospace');
-        if(!endDrawn&&X(t.expT)<plotW-4){endDrawn=true;const x=X(t.expT);ctx.setLineDash([4,4]);ctx.strokeStyle=col.muted;ctx.globalAlpha=.6;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,TY-10);ctx.lineTo(x,MB);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;
-          const l=x>plotW-80,al=l?'right':'left',ox=l?x-6:x+6;txt('End of trade',ox,TY-20,col.muted,'600 10px Roboto, sans-serif',al);txt(mmss(t.expT-now),ox,TY-8,col.fg,'500 10px Roboto Mono, monospace',al)}
+      let endDrawn = false;
+      const tz = -new Date().getTimezoneOffset();
+      const gmtTag = 'GMT' + (tz >= 0 ? '+' : '-') + Math.floor(Math.abs(tz) / 60);
+
+      for (const t of mine) {
+        if (t.status === 'pending') {
+          if (t.target != null) {
+            const y = Y(t.target);
+            ctx.setLineDash([6, 4]);
+            ctx.strokeStyle = '#6c43f5';
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(plotW, y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            txt('Target ' + fmtP(t.asset, t.target), plotW - 6, y - 6, '#6c43f5', '600 10px Inter, sans-serif', 'right');
+            continue;
+          }
+          const x = X(t.openT);
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = col.muted;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(x, TY - 10);
+          ctx.lineTo(x, MB);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          txt('Pending ' + mmss(t.openT - now), x - 6, TY - 14, col.muted, '600 10px Inter, sans-serif', 'right');
+          continue;
+        }
+
+        const isUp = t.dir === 'up';
+        const win = isUp ? price >= t.entry : price <= t.entry;
+        const tradeColor = isUp ? '#1b9a68' : '#e5484d';
+        const statusColor = win ? '#1b9a68' : '#e5484d';
+        const x1 = Math.max(2, X(t.openT));
+        const x2 = Math.min(plotW - 2, X(t.expT));
+        const yy = Y(t.entry);
+        const curX = Math.min(plotW - 4, Math.max(x1, X(now)));
+
+        // 1. Horizontal Strike Price Line:
+        // Solid colored line from open candle to current candle
+        ctx.strokeStyle = tradeColor;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(x1, yy);
+        ctx.lineTo(curX, yy);
+        ctx.stroke();
+
+        // Dashed line continuing from current candle to expiration line / right axis
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = tradeColor;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(curX, yy);
+        ctx.lineTo(plotW, yy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // 2. Start marker base at entry candle
+        if (x1 >= 0 && x1 <= plotW) {
+          ctx.fillStyle = tradeColor;
+          ctx.fillRect(x1 - 10, yy - 1.5, 20, 3);
+        }
+
+        // 3. Dot on current candle / strike line
+        if (curX >= 0 && curX <= plotW) {
+          ctx.beginPath();
+          ctx.arc(curX, yy, 3.6, 0, Math.PI * 2);
+          ctx.fillStyle = tradeColor;
+          ctx.fill();
+          ctx.lineWidth = 1.8;
+          ctx.strokeStyle = '#ffffff';
+          ctx.stroke();
+        }
+
+        // 4. Trade badge (e.g. "↑ $1 00:43" or "↓ $1 00:25")
+        const sym = isUp ? '↑' : '↓';
+        const stakeStr = money(t.stake).replace(/\.00$/, '');
+        const timeStr = mmss(t.expT - now);
+        const lb = `${sym} ${stakeStr} ${timeStr}`;
+        ctx.font = '700 11px Inter, -apple-system, Roboto, sans-serif';
+        const bw = ctx.measureText(lb).width + 14, bh = 20;
+        const bx = Math.min(plotW - bw - 4, Math.max(4, x1 - 10));
+        const by = yy - bh - 4;
+        rr(bx, by, bw, bh, 4, tradeColor);
+        txt(lb, bx + bw / 2, by + bh / 2, '#ffffff', '700 11px Inter, -apple-system, Roboto, sans-serif', 'center');
+
+        // 5. Directional Arrow ("Arrow asa chota" - compact white-bordered 3D arrow like in screenshot)
+        // Positioned beside the current candle dot!
+        // In screenshot 1 (losing UP trade): Red ↘ below the line
+        // In screenshot 2 (winning UP trade): Green ↗ above the line
+        const arrowAngle = win ? (isUp ? -Math.PI / 4 : Math.PI / 4) : (isUp ? Math.PI / 4 : -Math.PI / 4);
+        const arrowColor = statusColor;
+        const arrowX = Math.min(plotW - 16, Math.max(x1 + 18, curX + 14));
+        const arrowY = win ? (isUp ? yy - 20 : yy + 20) : (isUp ? yy + 20 : yy - 20);
+
+        ctx.save();
+        ctx.translate(arrowX, arrowY);
+        ctx.rotate(arrowAngle);
+        ctx.beginPath();
+        // Compact sleek arrow polygon (~22px length, 10px width)
+        ctx.moveTo(-10, -4);
+        ctx.lineTo(1, -4);
+        ctx.lineTo(1, -8);
+        ctx.lineTo(11, 0);
+        ctx.lineTo(1, 8);
+        ctx.lineTo(1, 4);
+        ctx.lineTo(-10, 4);
+        ctx.closePath();
+        ctx.lineJoin = 'round';
+        ctx.shadowColor = 'rgba(0,0,0,0.25)';
+        ctx.shadowBlur = 5;
+        ctx.fillStyle = arrowColor;
+        ctx.fill();
+        ctx.lineWidth = 2.8;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = arrowColor;
+        ctx.fill();
+        ctx.restore();
+
+        // 6. Beginning of trade marker
+        if (x1 >= 0 && x1 < plotW - 4) {
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = '#9aa0a6';
+          ctx.globalAlpha = 0.55;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x1, TY - 6);
+          ctx.lineTo(x1, MB);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.globalAlpha = 1;
+          const openDate = new Date(t.openT);
+          const timeHms = pad(openDate.getHours()) + ':' + pad(openDate.getMinutes()) + ':' + pad(openDate.getSeconds());
+          txt(`🟢 ${timeHms} ${gmtTag} »`, x1, TY - 20, col.fg, '600 9.5px Inter, sans-serif', 'center');
+          txt('Beginning of trade', x1, TY - 9, col.muted, '500 9px Inter, sans-serif', 'center');
+        }
+
+        // 7. End of trade marker
+        if (!endDrawn && X(t.expT) < plotW - 4) {
+          endDrawn = true;
+          const x = X(t.expT);
+          ctx.setLineDash([3, 3]);
+          ctx.strokeStyle = '#e5484d';
+          ctx.globalAlpha = 0.55;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x, TY - 6);
+          ctx.lineTo(x, MB);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.globalAlpha = 1;
+          txt('« End of trade', x, TY - 20, col.muted, '600 9.5px Inter, sans-serif', 'center');
+          txt(mmss(t.expT - now), x, TY - 9, col.fg, '700 10px Inter, sans-serif', 'center');
+        }
       }
       // results
       for(const r of eng.results){if(r.asset!==p.assetId)continue;const age=now-r.t;if(age>9000)continue;
         ctx.globalAlpha=age>7500?(9000-age)/1500:1;const k=r.pnl>=0?col.gu:col.gd;
         const l1=(r.pnl>=0?'+':'')+money(r.pnl),l2=money(r.stake)+' → '+money(r.pnl>=0?r.stake+r.pnl:r.pnl===0?r.stake:0);
-        ctx.font='800 12px Roboto Mono, monospace';const w=Math.max(ctx.measureText(l1).width,ctx.measureText(l2).width)+18;
+        ctx.font='800 12px Roboto, sans-serif';const w=Math.max(ctx.measureText(l1).width,ctx.measureText(l2).width)+18;
         const bx=Math.max(6,Math.min(plotW-w-6,anchor-w-12)),by=Math.max(TY,Math.min(MB-46,Y(r.price)-56));
-        rr(bx,by,w,40,10,k);ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();txt(l1,bx+9,by+13,'#fff','800 12px Roboto Mono, monospace');txt(l2,bx+9,by+29,'#ffffffcc','500 9.5px Roboto Mono, monospace');ctx.globalAlpha=1}
+        rr(bx,by,w,40,10,k);ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();txt(l1,bx+9,by+13,'#fff','800 12px Roboto, sans-serif');txt(l2,bx+9,by+29,'#ffffffcc','500 9.5px Roboto, sans-serif');ctx.globalAlpha=1}
       for(const sk of (strokes.current[p.assetId]||[])){ctx.strokeStyle=sk.c;ctx.fillStyle=sk.c;ctx.lineWidth=2.6;ctx.lineCap='round';ctx.lineJoin='round';
         if(sk.pts.length<2){ctx.beginPath();ctx.arc(X(sk.pts[0].t),Y(sk.pts[0].p),1.8,0,7);ctx.fill();continue}
         ctx.beginPath();sk.pts.forEach((q,i)=>{const x=X(q.t),yy=Y(q.p);if(i)ctx.lineTo(x,yy);else ctx.moveTo(x,yy)});ctx.stroke()}
       ctx.lineCap='butt';
       ctx.restore();
       // current price
-      if(pan<1||true){const yy=Math.round(Y(price))+.5,dn=last.c<last.o,k=dn?col.down:col.up;
-        if(yy>TY-10&&yy<MB){ctx.setLineDash([6,5]);ctx.strokeStyle='#8a96ad';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(0,yy);ctx.lineTo(plotW,yy);ctx.stroke();ctx.setLineDash([]);
-        rr(plotW,yy-15,AX-2,30,5,k);txt(fmtP(p.assetId,price),plotW+5,yy-5,'#fff','600 10px Roboto Mono, monospace');txt(mmss(tfms-(now-last.t)),plotW+5,yy+8,'#ffffffd0','500 9.5px Roboto Mono, monospace')}}
+      if(pan<1||true){const yy=Math.round(Y(price))+.5,dn=last.c<last.o,k=dn?'#e5484d':'#1b9a68';
+        if(yy>TY-10&&yy<MB){
+          ctx.setLineDash([5,4]);ctx.strokeStyle=dn?'#e5484d':'#1b9a68';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(0,yy);ctx.lineTo(plotW,yy);ctx.stroke();ctx.setLineDash([]);
+          rr(plotW+2,yy-15,AX-4,30,4,k);
+          txt(fmtP(p.assetId,price),plotW+AX/2,yy-5,'#fff','700 11px Inter, -apple-system, Roboto, sans-serif','center');
+          txt(mmss(tfms-(now-last.t)),plotW+AX/2,yy+7,'rgba(255,255,255,.94)','600 9.5px Inter, -apple-system, Roboto, sans-serif','center')}}
       if(IR&&nO)drawPanes(ctx,IR,p.inds,{X,tfms,cw,plotW,MB,col,txt});
       raf=requestAnimationFrame(draw);
     };
@@ -569,24 +723,24 @@ function TradeView({h,onClose,onGo}){
   const rough=(hi-lo)/5,pwr=Math.pow(10,Math.floor(Math.log10(rough))),fr=rough/pwr,step=(fr<1.5?1:fr<3?2:fr<7?5:10)*pwr,grid=[];
   for(let v=Math.ceil(lo/step)*step;v<hi;v+=step)grid.push(v);
   const ex=X(h.openT),cx=X(h.closeT),ey=Y(h.entry),cy=Y(h.close),bw=Math.max(3,Math.min(14,X(t0+cms)*0.6));
-  const lbl=(x,y,t,al='start')=><g><rect x={al==='end'?x-60:x} y={y-9} width="60" height="18" rx="6" style={{fill:'var(--surface)',stroke:'var(--line)'}}/><text x={al==='end'?x-30:x+30} y={y+4} textAnchor="middle" fontSize="10.500" style={{fill:'var(--fg)',fontFamily:'var(--mono)'}}>{t}</text></g>;
+  const lbl=(x,y,t,al='start',k='lbl')=><g key={k}><rect x={al==='end'?x-60:x} y={y-9} width="60" height="18" rx="6" style={{fill:'var(--surface)',stroke:'var(--line)'}}/><text x={al==='end'?x-30:x+30} y={y+4} textAnchor="middle" fontSize="10.500" style={{fill:'var(--fg)',fontFamily:'var(--mono)'}}>{t}</text></g>;
   const rx=Math.max(4,Math.min(pw-118,cx-118)),ry=cy<Ht/2?cy+16:cy-58;
   const row=(l,v)=><div className="cr" key={l}><span>{l}</span><b className="num">{v}</b></div>;
   return <div className="sheet"><SheetHead title="Trade on chart" icon="history" onClose={onClose}/><div className="body">
     <div className="tvbox" style={{position:'relative',cursor:'pointer'}} onClick={onGo} role="button" aria-label="Open on chart"><svg viewBox={`0 0 ${W} ${Ht}`} width="100%" role="img" aria-label="Trade chart with entry and exit">
-      {grid.map(v=><g key={v}><line x1="0" x2={pw} y1={Y(v)} y2={Y(v)} style={{stroke:'var(--chart-grid)'}}/><text x={pw+6} y={Y(v)+3.500} fontSize="10" style={{fill:'var(--muted)',fontFamily:'var(--mono)'}}>{v.toFixed(dec)}</text></g>)}
+      {grid.map((v,i)=><g key={'grid-'+v+'-'+i}><line x1="0" x2={pw} y1={Y(v)} y2={Y(v)} style={{stroke:'var(--chart-grid)'}}/><text x={pw+6} y={Y(v)+3.500} fontSize="10" style={{fill:'var(--muted)',fontFamily:'var(--mono)'}}>{v.toFixed(dec)}</text></g>)}
       <defs><clipPath id="tvclip"><rect x="0" y="0" width={pw} height={Ht}/></clipPath></defs><g clipPath="url(#tvclip)">
       <rect x={ex} y={PT} width={Math.max(0,cx-ex)} height={ph} style={{fill:k,opacity:.08}}/>
       {path.map((c,i)=>{const x=X(c[0]+cms/2),up=c[4]>=c[1],cc=up?'var(--c-up)':'var(--c-down)';
-        return <g key={i} style={{stroke:cc,fill:cc}}><line x1={x} x2={x} y1={Y(c[2])} y2={Y(c[3])} strokeWidth="1.300"/><rect x={x-bw/2} y={Y(Math.max(c[1],c[4]))} width={bw} height={Math.max(1.500,Math.abs(Y(c[1])-Y(c[4])))} stroke="none"/></g>})}
+        return <g key={'candle-'+c[0]+'-'+i} style={{stroke:cc,fill:cc}}><line x1={x} x2={x} y1={Y(c[2])} y2={Y(c[3])} strokeWidth="1.300"/><rect x={x-bw/2} y={Y(Math.max(c[1],c[4]))} width={bw} height={Math.max(1.500,Math.abs(Y(c[1])-Y(c[4])))} stroke="none"/></g>})}
       {!path.length&&<line x1={ex} y1={ey} x2={cx} y2={cy} strokeWidth="1.500" style={{stroke:'var(--muted)'}}/>}
       <line x1={ex} x2={cx} y1={ey} y2={ey} strokeWidth="2.200" style={{stroke:k}}/>
       <line className="dot-line" x1={cx} x2={cx} y1={ey} y2={cy} strokeWidth="2" strokeDasharray="4 4" style={{stroke:k}}/>
       <circle cx={ex} cy={ey} r="5" strokeWidth="2.200" style={{fill:'var(--surface)',stroke:k}}/>
       <circle cx={cx} cy={cy} r="5" strokeWidth="2.200" style={{fill:'var(--surface)',stroke:k}}/></g>
-      {lbl(ex-8,ey-(h.dir==='up'?16:-16),fmtP(h.asset,h.entry),'end')}
-      {lbl(cx+8,cy+(cy>ey?16:-16),fmtP(h.asset,h.close))}
-      <g><rect x={rx} y={ry} width="112" height="42" rx="10" style={{fill:'var(--surface)',stroke:k}} strokeWidth="1.500"/>
+      {lbl(ex-8,ey-(h.dir==='up'?16:-16),fmtP(h.asset,h.entry),'end','lbl-entry')}
+      {lbl(cx+8,cy+(cy>ey?16:-16),fmtP(h.asset,h.close),'start','lbl-close')}
+      <g key="pnl-box"><rect x={rx} y={ry} width="112" height="42" rx="10" style={{fill:'var(--surface)',stroke:k}} strokeWidth="1.500"/>
         <text x={rx+10} y={ry+17} fontSize="13" fontWeight="800" style={{fill:k,fontFamily:'var(--mono)'}}>{h.pnl>0?'+':''}{money(h.pnl)}</text>
         <text x={rx+10} y={ry+33} fontSize="10.500" style={{fill:'var(--muted)',fontFamily:'var(--mono)'}}>{money(h.stake)} → {money(won?h.stake+h.pnl:tie?h.stake:0)}</text></g>
       <text x={ex} y={Ht-8} fontSize="9.500" textAnchor="middle" style={{fill:'var(--muted)',fontFamily:'var(--mono)'}}>{hms(h.openT)}</text>
@@ -603,8 +757,29 @@ function TradeView({h,onClose,onGo}){
 function App(){
   const [authed,setAuthed]=useState(true),[tab,setTab]=useState('chart'),[sheet,setSheet]=useState(null),[pop,setPop]=useState(null);
   const [assetId,setAssetId]=useState(()=>lsGet('tp_asset','EURUSD')),[tf,setTf]=useState(()=>lsGet('tp_tf',5)),[ctype,setCtype]=useState('candles'),[zoom,setZoom]=useState(1.7);
-  const [balance,setBalance]=useState(()=>lsGet('tp_bal',10000)),[open,setOpen]=useState([]),[hist,setHist]=useState(()=>lsGet('tp_hist',[]));
-  const [amt,setAmt]=useState(100),[mode,setMode]=useState('$'),[dur,setDur]=useState(60),[pending,setPending]=useState(false);
+  const [accType,setAccType]=useState(()=>lsGet('tp_acctype','demo'));
+  const [demoBal,setDemoBal]=useState(()=>lsGet('tp_bal',10001.43));
+  const [liveBal,setLiveBal]=useState(()=>lsGet('tp_live_bal',1250));
+  const [open,setOpen]=useState([]),[hist,setHist]=useState(()=>lsGet('tp_hist',[]));
+  const balance=accType==='live'?liveBal:demoBal;
+  const setBalance=useCallback((fnOrVal)=>{
+    if(accType==='live'){
+      setLiveBal(prev=>{
+        const next=typeof fnOrVal==='function'?fnOrVal(prev):fnOrVal;
+        const val=+(+next).toFixed(2);
+        lsSet('tp_live_bal',val);
+        return val;
+      });
+    }else{
+      setDemoBal(prev=>{
+        const next=typeof fnOrVal==='function'?fnOrVal(prev):fnOrVal;
+        const val=+(+next).toFixed(2);
+        lsSet('tp_bal',val);
+        return val;
+      });
+    }
+  },[accType]);
+  const [amt,setAmt]=useState(1),[mode,setMode]=useState('$'),[dur,setDur]=useState(60),[pending,setPending]=useState(false);
   const [favs,setFavs]=useState(()=>lsGet('tp_favs',['EURUSD','Bitcoin'])),[theme,setTheme]=useState(()=>{const t=lsGet('tp_theme','light');return t==='dark'?'dark':'light'}),[sound,setSound]=useState(()=>lsGet('tp_sound',true));
   const [user,setUser]=useState(()=>lsGet('tp_user',{name:'Demo Trader',email:'demo@tradepad.app',id:'1148212757',verified:false}));
   const [joined,setJoined]=useState(()=>lsGet('tp_tour',{}));
@@ -613,10 +788,10 @@ function App(){
   const [tv,setTv]=useState(null),[lbv,setLbv]=useState('lb'),[review,setReview]=useState(null),[pmode,setPmode]=useState('time'),[pDelay,setPDelay]=useState(1),[pTarget,setPTarget]=useState(0),[eAlt,setEAlt]=useState(false),[hold,setHold]=useState(null),holdT=useRef(0);
   const openRef=useRef([]),confirmAt=useRef(0);
   const held=open.reduce((s,t)=>s+t.stake,0);
-  useEffect(()=>{lsSet('tp_bal',+(balance+held).toFixed(2))},[balance,held]);
+  useEffect(()=>{if(accType==='live')lsSet('tp_live_bal',+(liveBal).toFixed(2));else lsSet('tp_bal',+(demoBal).toFixed(2))},[demoBal,liveBal,accType]);
   useEffect(()=>{lsSet('tp_hist',hist)},[hist]);
   useEffect(()=>{lsSet('tp_oneclick',oneClick)},[oneClick]);
-  useEffect(()=>{lsSet('tp_asset',assetId);lsSet('tp_tf',tf);lsSet('tp_favs',favs);lsSet('tp_theme',theme);lsSet('tp_sound',sound);lsSet('tp_user',user);lsSet('tp_tour',joined)},[assetId,tf,favs,theme,sound,user,joined]);
+  useEffect(()=>{lsSet('tp_acctype',accType);lsSet('tp_asset',assetId);lsSet('tp_tf',tf);lsSet('tp_favs',favs);lsSet('tp_theme',theme);lsSet('tp_sound',sound);lsSet('tp_user',user);lsSet('tp_tour',joined)},[accType,assetId,tf,favs,theme,sound,user,joined]);
   useEffect(()=>{const r=document.documentElement;if(theme==='system')r.removeAttribute('data-theme');else r.setAttribute('data-theme',theme)},[theme]);
   const toast=useCallback((msg,kind)=>{const id=Math.random();setToasts(t=>[...t,{id,msg,kind}]);setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),kind?4200:2600)},[]);
   const notify=useCallback(n=>{const id=Math.random();setToasts(t=>[...t,{id,n}]);setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),4600)},[]);
@@ -635,9 +810,16 @@ function App(){
       keep.push(t)}
     if(!changed)return;commit(keep);
     if(done.length){setHist(h=>[...done.slice().reverse(),...h].slice(0,300));
-      setBalance(b=>+(b+done.reduce((s,d)=>s+(d.status==='won'?d.stake+d.pnl:d.status==='tie'?d.stake:0),0)).toFixed(2));
-      for(const d of done){eng.results.push({asset:d.asset,pnl:d.pnl,stake:d.stake,price:d.close,t:n});
-        beep(sound,d.status==='won'?880:d.status==='lost'?220:440,.25)}
+      for(const d of done){
+        const ret=d.status==='won'?d.stake+d.pnl:d.status==='tie'?d.stake:0;
+        if(d.accType==='live'){
+          setLiveBal(b=>{const nb=+(b+ret).toFixed(2);lsSet('tp_live_bal',nb);return nb;});
+        }else{
+          setDemoBal(b=>{const nb=+(b+ret).toFixed(2);lsSet('tp_bal',nb);return nb;});
+        }
+        eng.results.push({asset:d.asset,pnl:d.pnl,stake:d.stake,price:d.close,t:n});
+        beep(sound,d.status==='won'?880:d.status==='lost'?220:440,.25);
+      }
       eng.results=eng.results.filter(r=>n-r.t<10000)}
   };
   useEffect(()=>{const id=setInterval(()=>{tickEngine();setNow(Date.now());settle()},250);return ()=>clearInterval(id)},[sound]);
@@ -650,10 +832,10 @@ function App(){
   const pendMs=pending&&!byPrice?openAt(now):0;
   const place=dir=>{
     if(stake<1){toast('Minimum investment is $1.00');return false}
-    if(stake>balance){toast('Not enough balance. Top up your demo funds.');return false}
+    if(stake>balance){toast(`Not enough ${accType==='live'?'Live':'Demo'} balance. Top up funds.`);return false}
     if(stake>MAXI){toast('Maximum investment is $5,000.00');return false}
     const n=Date.now(),start=pending&&!byPrice?openAt(n):n;
-    const t={id:Math.random().toString(36).slice(2),asset:assetId,dir,stake:+stake.toFixed(2),pct:a.pay,openT:start,expT:start+dur*1000,entry:pending?null:eng.prices[assetId],status:pending?'pending':'open',...(byPrice?{target:pTarget,side:pTarget>=price?'above':'below',durMs:dur*1000}:{})};
+    const t={id:Math.random().toString(36).slice(2),asset:assetId,dir,stake:+stake.toFixed(2),pct:a.pay,openT:start,expT:start+dur*1000,entry:pending?null:eng.prices[assetId],status:pending?'pending':'open',accType,...(byPrice?{target:pTarget,side:pTarget>=price?'above':'below',durMs:dur*1000}:{})};
     commit([...openRef.current,t]);setBalance(b=>+(b-t.stake).toFixed(2));beep(sound,520,.08);
     return true;
   };
@@ -696,7 +878,7 @@ function App(){
       <label>Account ID<input id="pid" value={user.id} readOnly/></label></div>
       <div className="card" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:10}}><div><b>{user.verified?'Verified (demo)':'Not verified'}</b><div className="note">Verification is simulated in this demo.</div></div>
       <button className="btn sm" onClick={()=>{setUser({...user,verified:!user.verified});toast(user.verified?'Verification removed':'Marked as verified (demo)')}}>{user.verified?'Undo':'Verify'}</button></div></div></div>;
-    if(sheet==='topup')return <TopUp close={close} add={v=>{setBalance(b=>+(b+v).toFixed(2));toast(`Added ${money(v)} demo funds`);close()}}/>;
+    if(sheet==='topup')return <TopUp close={close} accType={accType} onSwitchAcc={t=>{setAccType(t);lsSet('tp_acctype',t)}} add={v=>{setBalance(b=>+(b+v).toFixed(2));toast(`Added ${money(v)} to ${accType==='live'?'Live Real':'Demo'} balance`);close()}}/>;
     if(sheet==='stats')return <div className="sheet"><SheetHead title="Trading Stats" icon="bars" onClose={close}/><div className="body">
       <div className="stats"><div className="stat"><small>Total trades</small><b>{stats.n}</b></div><div className="stat"><small>Win rate</small><b>{stats.rate}%</b></div><div className="stat"><small>Net P&amp;L</small><b className={stats.net>=0?'pos':'neg'}>{money(stats.net)}</b></div>
       <div className="stat"><small>Volume</small><b>{money(stats.vol)}</b></div><div className="stat"><small>Best trade</small><b className="pos">{money(stats.best)}</b></div><div className="stat"><small>Worst trade</small><b className="neg">{money(stats.worst)}</b></div></div>
@@ -716,23 +898,62 @@ function App(){
       <div className="card" style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}><b>Trade sounds</b><Switch on={sound} label="Trade sounds" onClick={()=>setSound(!sound)}/></div>
       <div className="card" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:10}}><div><b>Confirm trades</b><div className="note">Ask before placing Higher or Lower.</div></div><Switch on={!oneClick} label="Confirm trades" onClick={()=>setOneClick(!oneClick)}/></div>
       <div><div className="note" style={{marginBottom:6}}>Default candle length</div><div className="seg">{TFS.map(t=><button key={t} className={tf===t?'on':''} onClick={()=>setTf(t)}>{t<60?t+'s':'1m'}</button>)}</div></div>
-      <button className="btn ghost" onClick={()=>{setBalance(10000);commit([]);toast('Demo balance reset to $10,000.00')}}>Reset demo balance to $10,000</button></div></div>;
+      <button className="btn ghost" onClick={()=>{setDemoBal(10000);commit([]);toast('Demo balance reset to $10,000.00')}}>Reset demo balance to $10,000</button></div></div>;
     return null};
 
   const titles={chart:null};
   return <div className={'app'+(tab==='chart'&&!sheet?' flat':'')}>
     {tab==='chart'&&<>
       <div className="hdr">
-        <button className={'chip '+chipCls} onClick={()=>setSheet('asset')} aria-label="Select asset"><AIcon a={a}/><span style={{textAlign:'left',minWidth:0}}><div className="nm">{a.name.replace(' (OTC)','')}</div><div className="pc num">{a.pay}%{live.length?` ${liveVal>0?'+':'-'}${money(Math.abs(liveVal))}`:''}</div></span><Icon n="chevD" s={14}/></button>
-        <button className="bal" onClick={()=>setPop(pop==='bal'?null:'bal')}><Icon n="wallet" s={15}/><span className="num">{money(balance)}</span><span className="demo">DEMO</span></button>
+        <button className={'chip '+chipCls} onClick={()=>setSheet('asset')} aria-label="Select asset">
+          <AIcon a={a}/>
+          <span style={{textAlign:'left',minWidth:0}}>
+            <div className="nm">{a.name.replace(' (OTC)','')}</div>
+            <div className="pc num">{a.pay}%{live.length?` ${liveVal>0?'+':'-'}${money(Math.abs(liveVal))}`:''}</div>
+          </span>
+          <Icon n="chevD" s={14}/>
+        </button>
+        <button className={'bal '+(accType==='live'?'live':'demo')} onClick={()=>setPop(pop==='bal'?null:'bal')} aria-label="Account balance">
+          <Icon n="briefcase" s={14}/>
+          <span className="num">{money(balance)}</span>
+          {accType==='live'?<span className="live-tag"><i className="live-dot"/>LIVE</span>:<span className="demo-tag">DEMO</span>}
+          <Icon n="chevD" s={11}/>
+        </button>
+        <button className={'acc-toggle '+(accType==='live'?'is-live':'is-demo')} onClick={()=>{
+          const next=accType==='live'?'demo':'live';
+          setAccType(next);lsSet('tp_acctype',next);
+          toast(next==='live'?`🟢 Switched to LIVE Real Trading Account (${money(liveBal)})`:`🟡 Switched to DEMO Practice Account (${money(demoBal)})`);
+        }} title="Quick switch between Demo and Live">
+          <span className={accType==='demo'?'active':''}>DEMO</span>
+          <span className={accType==='live'?'active':''}>LIVE</span>
+        </button>
+        <button className="wallet-btn" onClick={()=>setSheet('topup')} aria-label="Deposit / Top up" title="Deposit funds">
+          <Icon n="wallet" s={16}/>
+          <span className="wbadge">+</span>
+        </button>
         <button className="avatar" onClick={()=>setPop(pop==='user'?null:'user')} aria-label="Account menu">{user.name[0]}</button>
       </div>
       {pop&&<div className="scrim" onClick={()=>setPop(null)}/>}
-      {pop==='bal'&&<div className="pop" style={{top:58,right:56,minWidth:210}}>
-        <button className="it on"><Icon n="wallet" s={16}/>Demo account<span className="num" style={{marginLeft:'auto'}}>{money(balance)}</span></button>
-        <button className="it" disabled style={{opacity:.55}}><Icon n="shield" s={16}/>Live account · locked</button><hr/>
-        <button className="it" onClick={()=>{setPop(null);setSheet('topup')}}><Icon n="plus" s={16}/>Top up demo funds</button>
-        <button className="it" onClick={()=>{setBalance(10000);commit([]);setPop(null);toast('Demo balance reset')}}><Icon n="history" s={16}/>Reset to $10,000</button></div>}
+      {pop==='bal'&&<div className="pop" style={{top:58,right:30,minWidth:250}}>
+        <div style={{padding:'6px 10px 4px',fontSize:10.5,fontWeight:800,letterSpacing:'.06em',color:'var(--muted)',textTransform:'uppercase'}}>Trading Accounts</div>
+        <button className={'it '+(accType==='demo'?'on':'')} style={{display:'flex',alignItems:'center',justifyContent:'space-between'}} onClick={()=>{setAccType('demo');lsSet('tp_acctype','demo');setPop(null);toast('Switched to Demo Practice Account')}}>
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:6,fontWeight:700}}>Demo Account <span className="demo-tag">DEMO</span></div>
+            <div style={{fontSize:10.5,color:'var(--muted)',marginTop:1}}>Virtual practice funds</div>
+          </div>
+          <b className="num" style={{fontSize:13.5}}>{money(demoBal)}</b>
+        </button>
+        <button className={'it '+(accType==='live'?'on':'')} style={{display:'flex',alignItems:'center',justifyContent:'space-between'}} onClick={()=>{setAccType('live');lsSet('tp_acctype','live');setPop(null);toast('Switched to Live Real Trading Account')}}>
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:6,fontWeight:700}}>Live Account <span className="live-tag"><i className="live-dot"/>LIVE</span></div>
+            <div style={{fontSize:10.5,color:'var(--muted)',marginTop:1}}>Real money trading</div>
+          </div>
+          <b className="num" style={{fontSize:13.5,color:'#1b9a68'}}>{money(liveBal)}</b>
+        </button>
+        <hr/>
+        <button className="it" onClick={()=>{setPop(null);setSheet('topup')}}><Icon n="plus" s={16}/>Deposit {accType==='live'?'Live':'Demo'} Funds</button>
+        {accType==='demo'&&<button className="it" onClick={()=>{setDemoBal(10000);commit([]);setPop(null);toast('Demo balance reset to $10,000.00')}}><Icon n="history" s={16}/>Reset demo to $10,000</button>}
+      </div>}
       {pop==='user'&&<div className="pop" style={{top:58,right:0,width:260}}>
         <div style={{padding:'10px 10px 6px'}}><b style={{fontSize:15}}>{user.name}</b><div className="note">{user.email}</div></div>
         <button className="it" style={{background:'var(--surface2)'}} onClick={()=>{setPop(null);setSheet('profile')}}><Icon n="info" s={16}/>{user.verified?'Verified (demo)':'Not Verified'}<span style={{marginLeft:'auto'}}><Icon n="chevR" s={14}/></span></button>
@@ -741,6 +962,14 @@ function App(){
         <button className="it" style={{color:'var(--down)'}} onClick={()=>{setPop(null);setAuthed(false)}}><Icon n="logout" s={16}/>Log Out</button></div>}
       <Chart assetId={assetId} tf={tf} setTf={setTf} type={ctype} setType={setCtype} zoom={zoom} setZoom={setZoom} openTrades={mine} expMs={dur*1000} pendMs={pendMs} now={now} hold={hold} review={review} onLive={()=>setReview(null)} onInfo={()=>setSheet('info')}/>
       <div className="panel">
+        <div className="acc-bar">
+          <span>Account: <b className={accType==='live'?'live-txt':'demo-txt'}>{accType==='live'?'🟢 LIVE Real Account':'🟡 DEMO Practice'}</b> ({money(balance)})</span>
+          <button className="acc-switch-btn" onClick={()=>{
+            const next=accType==='live'?'demo':'live';
+            setAccType(next);lsSet('tp_acctype',next);
+            toast(next==='live'?`🟢 Switched to LIVE Account`:`🟡 Switched to DEMO Account`);
+          }}>{accType==='live'?'Switch to Demo':'Switch to Live'}</button>
+        </div>
         <div className="row2">
           <div><div className="lbl"><span>Investments</span><button onClick={swapMode}><Icon n="swap" s={12}/>{mode}</button></div>
             <div className="fld"><input id="stake" inputMode="decimal" value={amt} onChange={e=>setAmt(e.target.value.replace(/[^0-9.]/g,''))} aria-label="Investment amount"/><span className="u">{mode}</span>
@@ -764,7 +993,7 @@ function App(){
 
     {tab==='portfolio'&&<div className="screen"><div className="ttl"><h2><span className="ic"><Icon n="briefcase"/></span>Portfolio</h2><span className="note num">{open.length} open</span></div>
       {open.length?<div className="list">{open.map(t=>{const A=BYID[t.asset],p=eng.prices[t.asset],isOpen=t.status==='open',w=isOpen&&(t.dir==='up'?p>t.entry:p<t.entry),tot=t.expT-t.openT,left=t.expT-now;
-        return <div className="tr" key={t.id}><div className="a"><AIcon a={A} sm/>{A.name}<span className={'dirtag '+(t.dir==='up'?'up':'dn')}><Icon n={t.dir==='up'?'upr':'dnr'} s={13} sw={2.5}/>{t.dir==='up'?'HIGHER':'LOWER'}</span></div>
+        return <div className="tr" key={t.id}><div className="a"><AIcon a={A} sm/>{A.name}<span className={'dirtag '+(t.dir==='up'?'up':'dn')}><Icon n={t.dir==='up'?'upr':'dnr'} s={13} sw={2.5}/>{t.dir==='up'?'HIGHER':'LOWER'}</span><span className={'dirtag '+(t.accType==='live'?'up':'')} style={{fontSize:9.5,padding:'2px 5px',background:t.accType==='live'?'rgba(27,154,104,.15)':'rgba(217,120,11,.15)',color:t.accType==='live'?'#1b9a68':'#d9780b'}}>{t.accType==='live'?'LIVE':'DEMO'}</span></div>
           <div className={'r '+(isOpen?(w?'pos':'neg'):'')}>{isOpen?(w?'+'+money(t.stake*t.pct/100):money(-t.stake)):'Pending'}</div>
           <div className="m">{isOpen?`${fmtP(t.asset,t.entry)} → ${fmtP(t.asset,p)}`:`Opens ${hms(t.openT)} GMT`} · {money(t.stake)}</div><div className="m" style={{textAlign:'right'}}>{mmss(isOpen?left:t.openT-now)}</div>
           <div className="bar"><i style={{width:Math.max(0,Math.min(100,isOpen?(1-left/tot)*100:0))+'%',background:isOpen?(w?'var(--up)':'var(--down)'):'var(--muted)'}}/></div></div>})}</div>
@@ -773,7 +1002,7 @@ function App(){
     {tab==='history'&&<div className="screen"><div className="ttl"><h2><span className="ic"><Icon n="history"/></span>Trades History</h2></div>
       <div className="note num">Total Deals: {hist.length}{hist.length?` · Net ${money(stats.net)} · Win rate ${stats.rate}%`:''}</div>
       <div className="chips">{[['all','All'],['won','Won'],['lost','Lost']].map(([k,l])=><button key={k} className={flt===k?'on':''} onClick={()=>setFlt(k)}>{l}</button>)}</div>
-      {hist.length?<div className="list">{hist.filter(h=>flt==='all'||h.status===flt).map(h=>{const A=BYID[h.asset];return <div className="tr hx" key={h.id}><div className="a"><AIcon a={A} sm/>{A.name}<span className={'dirtag '+(h.dir==='up'?'up':'dn')}><Icon n={h.dir==='up'?'upr':'dnr'} s={13} sw={2.5}/>{h.dir==='up'?'HIGHER':'LOWER'}</span></div>
+      {hist.length?<div className="list">{hist.filter(h=>flt==='all'||h.status===flt).map(h=>{const A=BYID[h.asset];return <div className="tr hx" key={h.id}><div className="a"><AIcon a={A} sm/>{A.name}<span className={'dirtag '+(h.dir==='up'?'up':'dn')}><Icon n={h.dir==='up'?'upr':'dnr'} s={13} sw={2.5}/>{h.dir==='up'?'HIGHER':'LOWER'}</span><span className={'dirtag '+(h.accType==='live'?'up':'')} style={{fontSize:9.5,padding:'2px 5px',background:h.accType==='live'?'rgba(27,154,104,.15)':'rgba(217,120,11,.15)',color:h.accType==='live'?'#1b9a68':'#d9780b'}}>{h.accType==='live'?'LIVE':'DEMO'}</span></div>
         <div className={'r '+(h.pnl>0?'pos':h.pnl<0?'neg':'')}>{h.pnl>0?'+':''}{money(h.pnl)}</div><div className="m">{fmtP(h.asset,h.entry)} → {fmtP(h.asset,h.close)} · {money(h.stake)}</div><div className="m" style={{textAlign:'right'}}>{hms(h.closeT)}</div>
         <button className="gbtn" aria-label="Show trade on chart" onClick={()=>{setTv(h);setSheet('trade')}}><Icon n="chart" s={18}/></button></div>})}</div>
       :<div className="empty"><div className="big"><Icon n="history" s={26}/></div><b>No trades yet</b>Closed trades appear here with entry, exit and result.<button className="btn" style={{marginTop:10}} onClick={()=>go('chart')}>Make a trade</button></div>}</div>}
@@ -824,14 +1053,19 @@ function Spark({data}){
   return <svg viewBox={`0 0 ${w} ${h}`} width="100%" style={{marginTop:8,display:'block'}} role="img" aria-label="Cumulative profit and loss"><line x1="0" x2={w} y1={z} y2={z} stroke="var(--line)" strokeDasharray="4 4"/>
     <polyline fill="none" stroke={last>=0?'var(--up)':'var(--down)'} strokeWidth="2" strokeLinejoin="round" points={pts.map(p=>p.join(',')).join(' ')}/><circle cx={pts[pts.length-1][0]} cy={pts[pts.length-1][1]} r="3.5" fill={last>=0?'var(--up)':'var(--down)'}/></svg>
 }
-function TopUp({close,add}){
-  const [v,setV]=useState(1000),[m,setM]=useState('Card');
-  return <div className="sheet"><SheetHead title="Top Up" icon="card" onClose={close}/><div className="body">
-    <div className="demo-note"><Icon n="info" s={16}/>This adds demo funds only. No payment is taken.</div>
-    <div className="chips">{[100,500,1000,5000,10000].map(x=><button key={x} className={v===x?'on':''} onClick={()=>setV(x)}>${x.toLocaleString()}</button>)}</div>
-    <div className="form"><label>Amount<input id="topamt" inputMode="decimal" value={v} onChange={e=>setV(+e.target.value.replace(/[^0-9.]/g,'')||0)}/></label></div>
-    <div><div className="note" style={{marginBottom:6}}>Method</div><div className="chips">{['Card','Bank','Crypto'].map(x=><button key={x} className={m===x?'on':''} onClick={()=>setM(x)}>{x}</button>)}</div></div>
-    <button className="btn" disabled={v<1} onClick={()=>add(v)}>Add ${v.toLocaleString()} demo funds</button></div></div>
+function TopUp({close,add,accType,onSwitchAcc}){
+  const isLive = accType === 'live';
+  const [v,setV]=useState(isLive?250:1000),[m,setM]=useState('Card');
+  return <div className="sheet"><SheetHead title={isLive ? "Deposit Funds (Live)" : "Top Up Demo Balance"} icon="card" onClose={close}/><div className="body">
+    <div style={{display:'flex',gap:8,background:'var(--surface2)',padding:4,borderRadius:10,marginBottom:4}}>
+      <button style={{flex:1,padding:'8px',borderRadius:8,fontWeight:700,fontSize:12,background:!isLive?'var(--surface)':'transparent',color:!isLive?'#d9780b':'var(--muted)',boxShadow:!isLive?'0 1px 3px rgba(0,0,0,.1)':''}} onClick={()=>onSwitchAcc&&onSwitchAcc('demo')}>🟡 Demo Practice</button>
+      <button style={{flex:1,padding:'8px',borderRadius:8,fontWeight:700,fontSize:12,background:isLive?'var(--surface)':'transparent',color:isLive?'#1b9a68':'var(--muted)',boxShadow:isLive?'0 1px 3px rgba(0,0,0,.1)':''}} onClick={()=>onSwitchAcc&&onSwitchAcc('live')}>🟢 Live Real Account</button>
+    </div>
+    <div className="demo-note"><Icon n="info" s={16}/>{isLive ? 'Simulate adding real trading funds to your Live balance. Pick amount and payment method.' : 'Adds virtual demo funds for training and backtesting.'}</div>
+    <div className="chips">{(isLive?[25,50,100,250,500,1000]:[100,500,1000,5000,10000]).map(x=><button key={x} className={v===x?'on':''} onClick={()=>setV(x)}>${x.toLocaleString()}</button>)}</div>
+    <div className="form"><label>Amount ($)<input id="topamt" inputMode="decimal" value={v} onChange={e=>setV(+e.target.value.replace(/[^0-9.]/g,'')||0)}/></label></div>
+    <div><div className="note" style={{marginBottom:6}}>Payment Method</div><div className="chips">{['Card','Bank Transfer','Crypto USDT','EasyPaisa / JazzCash'].map(x=><button key={x} className={m===x?'on':''} onClick={()=>setM(x)}>{x}</button>)}</div></div>
+    <button className="btn" style={{background:isLive?'#1b9a68':'var(--accent)'}} disabled={v<1} onClick={()=>add(v)}>{isLive?`Deposit $${v.toLocaleString()} to Live Balance`:`Add $${v.toLocaleString()} Demo Funds`}</button></div></div>
 }
 function ReportIssue({close,sent}){
   const [t,setT]=useState('Chart'),[m,setM]=useState('');

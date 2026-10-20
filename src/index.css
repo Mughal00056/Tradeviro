@@ -6,8 +6,8 @@
   --up:#26a69a; --up-soft:#dff4f1; --down:#ef5350; --down-soft:#fdeaea;
   --btn-up:#15964e; --btn-down:#d63331; --c-up:#26a69a; --c-down:#ef5350; color-scheme:light;
   --chart-grid:#eceef7; --warn:#d9780b; --warn-soft:#fdf0dc; --shadow:0 10px 40px rgba(30,34,70,.18);
-  --font:'Roboto',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --mono:'Roboto Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --mono:'Inter',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
 }
 @media not all{:root{
   --bg:#080a14; --surface:rgba(34,40,72,.55); --surface2:rgba(255,255,255,.06); --line:rgba(255,255,255,.1); --solid:#12172a; --glass-strong:rgba(20,24,48,.82); --sheet:rgba(12,15,32,.95); --glass-line:rgba(255,255,255,.14); --blob1:rgba(240,86,86,.26); --blob2:rgba(40,190,120,.22); --blob3:rgba(110,90,240,.3);
@@ -41,10 +41,25 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .chip.win{background:var(--up-soft);border-color:var(--up)}
 .chip.lose{background:var(--down-soft);border-color:var(--down)}
 .chip.lose .pc{color:var(--down)}
-.bal{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:10px;background:var(--warn-soft);font-weight:700;font-size:12.5px}
-.bal .demo{font-size:9px;font-weight:800;letter-spacing:.06em;color:var(--warn)}
+.bal{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:10px;background:var(--warn-soft);border:1px solid rgba(217,120,11,.25);font-weight:700;font-size:12.5px;cursor:pointer;transition:all .18s}
+.bal.live{background:rgba(27,154,104,.12);border-color:rgba(27,154,104,.35)}
+.bal .demo-tag{font-size:9.5px;font-weight:800;letter-spacing:.04em;color:#d9780b;background:#fdf0dc;padding:2px 6px;border-radius:5px;border:1px solid rgba(217,120,11,.3)}
+.bal .live-tag{font-size:9.5px;font-weight:800;letter-spacing:.04em;color:#1b9a68;background:rgba(27,154,104,.15);padding:2px 6px;border-radius:5px;border:1px solid rgba(27,154,104,.35);display:flex;align-items:center;gap:4px}
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1b9a68;box-shadow:0 0 0 2px rgba(27,154,104,.3);animation:pulse-dot 1.8s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.2)}}
+.acc-toggle{display:inline-flex;align-items:center;padding:2px;border-radius:8px;background:var(--surface2);border:1px solid var(--line);font-size:10px;font-weight:700;cursor:pointer}
+.acc-toggle span{padding:3px 6px;border-radius:6px;color:var(--muted);transition:all .15s}
+.acc-toggle span.active{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.acc-toggle.is-demo span.active{color:#d9780b}
+.acc-toggle.is-live span.active{color:#1b9a68}
+.acc-bar{display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--surface2);border-radius:8px;font-size:11px;font-weight:600;margin-bottom:2px}
+.acc-bar .live-txt{color:#1b9a68;font-weight:700}
+.acc-bar .demo-txt{color:#d9780b;font-weight:700}
+.acc-switch-btn{font-size:10.5px;font-weight:700;color:var(--accent);text-decoration:underline;cursor:pointer}
+.wallet-btn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#6c43f5;color:#fff;border:none;box-shadow:0 2px 8px rgba(108,67,245,.3);position:relative;cursor:pointer}
+.wallet-btn .wbadge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:#ef4444;color:#fff;font-size:8.5px;font-weight:800;display:grid;place-items:center;border:1.5px solid #fff}
 .avatar{width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;border:1px solid var(--line)}
-.pop{position:absolute;z-index:30;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:6px;min-width:200px}
+.pop{position:absolute;z-index:30;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:6px;min-width:230px}
 .pop .it{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border-radius:9px;font-weight:600;font-size:13px;text-align:left}
 .pop .it:hover{background:var(--surface2)}
 .pop .it.on{color:var(--accent);background:var(--accent-soft)}
